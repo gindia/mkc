@@ -63,25 +63,10 @@ int main(void) {{
   return 0;
 }}""")
 
-    with open("Makefile", "w") as f:
-        f.write(f"# (C) Copyright {YEAR} {Author_Name}.")
-        f.write("""
-.PHONY: all build run
-
-all: build run
-
-build:
-\t@echo Building...
-\tbuild.bat
-\t@echo Done.
-
-run:
-\trun.bat
-""")
     with open("build.bat", "w") as f:
         f.write(f"""@echo off
 pushd target
-cl.exe -nologo -EHsc -Wall -DDEBUG:1 ../code/main.c -Fe:{Project_Name}.exe -link -INCREMENTAL:NO -DEBUG:FULL
+cl.exe -nologo -EHsc -Wall -wd4201 -wd5045 -DDEBUG:1 -Zi ../code/main.c -fp:fast -Fe:{Project_Name}.exe -link -INCREMENTAL:NO -DEBUG:FULL
 popd
 """)
     with open("run.bat", "w") as f:

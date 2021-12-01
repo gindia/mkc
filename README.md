@@ -1,10 +1,9 @@
 # MKC
-A small script to init an empty project for C/Cpp under Microsoft Windows, using cl.exe compiler.
+A small script to init an empty project for C/C++ under Microsoft Windows, using cl.exe compiler.
 
 ## deps
 1. git (also uses lfs).
 1. python.
-1. GNU Make.
 
 ## How to use?
 1. make a folder and place the script in it.
@@ -18,7 +17,6 @@ Project_Name
  | - code\main.c
  | - target <folder>
  | - assets <folder>
- | - Makefile
  | - build.bat
  | - run.bat
  | - README.md
@@ -37,7 +35,3 @@ insted of copying the file all around. you can do the following.
 py {full path to mkc.py script}
 ```
 now under any folder run from the commandline `mkc` or `mkc.bat`.
-
-## FAQ.
-- Why GNU make?
-> It integrates with my nvim workflow.
