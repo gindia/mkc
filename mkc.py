@@ -64,10 +64,37 @@ int main(void) {{
 }}""")
 
     with open("build.bat", "w") as f:
-        f.write(f"""@echo off
-pushd target
-cl.exe -nologo -EHsc -Wall -wd4201 -wd5045 -DDEBUG:1 -Zi ../code/main.c -fp:fast -Fe:{Project_Name}.exe -link -INCREMENTAL:NO -DEBUG:FULL
-popd
+        f.write(f"""@ECHO off
+:: The timer Reference: https://stackoverflow.com/questions/9922498/calculate-time-difference-in-windows-batch-file
+REM Setting the timer
+SETLOCAL EnableDelayedExpansion
+SET "startTime=%time: =0%"
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: the build environment.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+SET EXE={Project_Name}.exe
+SET COMPILATION_UNIT=../code/main.c
+
+PUSHD target
+cl.exe -nologo %COMPILATION_UNIT% -EHsc -Wall -wd4201 -wd5045 -DDEBUG:1 -Zi -fp:fast -Fe:%EXE% -link -INCREMENTAL:NO -DEBUG:FULL
+POPD
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+REM print the time taken to compile
+SET "endTime=%time: =0%"
+
+REM Get elapsed time:
+SET "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"
+SET /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"
+
+REM Convert elapsed time to HH:MM:SS:CC format:
+SET /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=elap/60+100"
+
+SET GREENBACK_CYANFRONT=[102;30;4m
+SET RESET=[0m
+ECHO %GREENBACK_CYANFRONT%DONE%RESET% : %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
 """)
     with open("run.bat", "w") as f:
         f.write(f"""@echo off
