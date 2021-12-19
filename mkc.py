@@ -77,7 +77,7 @@ SET EXE={Project_Name}.exe
 SET COMPILATION_UNIT=../code/main.c
 
 PUSHD target
-cl.exe -nologo %COMPILATION_UNIT% -EHsc -Wall -wd4201 -wd5045 -DDEBUG:1 -Zi -fp:fast -Fe:%EXE% -link -INCREMENTAL:NO -DEBUG:FULL
+cl -nologo %COMPILATION_UNIT% -F8 -Od -EHsc -Wall -WX -wd4820 -wd4201 -wd5045 -wd5105 -DDEBUG -Zi -fp:fast -Fe:%EXE% -link -INCREMENTAL:NO -DEBUG:FULL
 POPD
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
