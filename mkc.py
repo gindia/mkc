@@ -1,5 +1,5 @@
 """
-Setsup A C language project environment under Windows.
+Setup A C/C++ language project environment under Windows [using (msvc) cl compiler].
 Copyright 2021 Omar M.Gindia.
 """
 
@@ -8,7 +8,7 @@ import os
 import datetime
 
 license = {
-        "MIT": """MIT License
+        "MIT" : """MIT License
 
 Copyright (c) [year] [fullname]
 
@@ -34,7 +34,7 @@ SOFTWARE.
 
 def main():
     """
-    Sets up a C language project environment under Windows.
+    Sets up a C/C++ language project environment under Windows.
     """
     folder_name = os.path.basename(os.getcwd())
     YEAR: str = str(datetime.datetime.now().year)
@@ -46,17 +46,31 @@ def main():
     Project_Description: str = input(f"Project Description: ")
     Author_Name: str = input(f"Author Name: ")
 
-    License_Type: str = input(f"License Type (MIT): ")
-    if License_Type == "":
-        License_Type = "MIT"
+    License_Type: str = input(f"License Type (NONE): ")
+
+    Language: str = input(f"Language (C): ")
+    if Language == "":
+        Language = "C"
 
     # Directories
     os.makedirs("target", exist_ok=True) # output directory
     os.makedirs("assets", exist_ok=True)
     os.makedirs("code",   exist_ok=True) # source code directory
 
+    file_name: str
+    std: str
+    if Language.lower() == "c":
+        file_name = "code/main.c"
+        std = "c17"
+    elif Language.lower() == "c++" or Language.lower() == "cpp":
+        file_name = "code/main.cpp"
+        std = "c++20"
+    else:
+        print("Invalid Language")
+        sys.exit(1)
+
     # files
-    with open("code/main.c", "w") as f:
+    with open(file_name, "w") as f:
         f.write(f"""/* (C) Copyright {YEAR} {Author_Name}. */
 #include <stdio.h>
 int main(void) {{
@@ -74,10 +88,11 @@ SET "startTime=%time: =0%"
 :: the build environment.
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 SET EXE={Project_Name}.exe
-SET COMPILATION_UNIT=../code/main.c
+SET COMPILATION_UNIT=../{file_name}
+SET STD=-std:{std}
 
 PUSHD target
-cl -nologo %COMPILATION_UNIT% -F8 -Od -EHsc -Wall -WX -wd4820 -wd4201 -wd5045 -wd5105 -DDEBUG -Zi -fp:fast -Fe:%EXE% -link -INCREMENTAL:NO -DEBUG:FULL
+cl -nologo %COMPILATION_UNIT% %STD% -F8 -Od -EHsc -Wall -WX -wd4820 -wd4201 -wd5045 -wd5105 -DDEBUG -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
 POPD
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -95,6 +110,10 @@ SET /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=e
 SET GREENBACK_CYANFRONT=[102;30;4m
 SET RESET=[0m
 ECHO %GREENBACK_CYANFRONT%DONE%RESET% : %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
+
+IF NOT %ERRORLEVEL%==0 GOTO :DONE
+call run.bat
+:DONE
 """)
     with open("run.bat", "w") as f:
         f.write(f"""@echo off
