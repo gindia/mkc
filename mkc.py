@@ -89,10 +89,10 @@ SET "startTime=%time: =0%"
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 SET EXE={Project_Name}.exe
 SET COMPILATION_UNIT=../{file_name}
-SET STD=-std:{std}
+SET STD={std}
 
 PUSHD target
-cl -nologo %COMPILATION_UNIT% %STD% -F8 -Od -EHsc -Wall -WX -wd4820 -wd4201 -wd5045 -wd5105 -DDEBUG -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
+cl -nologo %COMPILATION_UNIT% -std:%STD% -Od -EHsc -Wall -WX -wd4201 -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
 POPD
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
