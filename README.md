@@ -26,12 +26,11 @@ Project_Name
 
 ## Tip.
 insted of copying the file all around. you can do the following.
-1. add the script to a folder.
-1. add the folder to %PATH%
-1. create a `mkc.bat` file.
+1. add a folder to %PATH%
+1. create a `mkc.bat` file inside that folder.
 1. add the following to it
 ```bat
 @echo off
 py {full path to mkc.py script}
 ```
-now under any folder run from the commandline `mkc` or `mkc.bat`.
+now under any folder run from cmd `mkc` or `mkc.bat`.
