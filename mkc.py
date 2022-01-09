@@ -48,6 +48,10 @@ def main():
 
     License_Type: str = input(f"License Type (NONE): ")
 
+    Use_lfs: str = input(f"use lfs (Y/n): ")
+    if Use_lfs == "":
+      Use_lfs = "y"
+
     Language: str = input(f"Language (C): ")
     if Language == "":
         Language = "C"
@@ -124,7 +128,9 @@ popd
 
     # Git
     os.system("git init") # initialize git repository
-    os.system("git lfs track \"*.png\" \"*.jpg\" \"*.jpeg\" \"*.gif\" \"*.ogg\"") # track images
+    if Use_lfs.lower() == "y":
+      os.system("git lfs track \"*.png\" \"*.jpg\" \"*.jpeg\" \"*.gif\" \"*.ogg\" \"*.wav\"") # track images
+
     with open("README.md", "w") as f:
         f.write(f"# {Project_Name}\n")
         f.write(f"{Project_Description}\n")
