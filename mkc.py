@@ -113,10 +113,11 @@ SET /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=e
 
 SET GREENBACK_CYANFRONT=[102;30;4m
 SET RESET=[0m
-ECHO %GREENBACK_CYANFRONT%DONE%RESET% : %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
 
-IF NOT %ERRORLEVEL%==0 GOTO :DONE
-call run.bat
+IF NOT %ERRORLEVEL%==0 (
+    ECHO %REDBACK_CYANFRONT%ERROR%RESET% : %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
+    GOTO :DONE)
+ECHO %GREENBACK_CYANFRONT%NO ERRORS%RESET% : %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
 :DONE
 """)
     with open("run.bat", "w") as f:
@@ -124,6 +125,10 @@ call run.bat
 pushd target
 {Project_Name}.exe
 popd
+
+SET GREENBACK_CYANFRONT=[102;30;4m
+SET RESET=[0m
+ECHO %GREENBACK_CYANFRONT%DONE%RESET%
 """)
 
     # Git
