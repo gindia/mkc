@@ -1,5 +1,6 @@
 """
-Setup A C/C++ language project environment under Windows [using (msvc) cl compiler].
+Setup A C/C++ language project environment under Windows ~[using clang-cl compiler]~.
+
 Copyright 2021 Omar M.Gindia.
 """
 
@@ -96,7 +97,7 @@ SET COMPILATION_UNIT=../{file_name}
 SET STD={std}
 
 PUSHD target
-cl -nologo %COMPILATION_UNIT% -std:%STD% -Od -EHsc -Wall -WX -wd4201 -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
+clang-cl -nologo %COMPILATION_UNIT% -std:%STD% -Od -EHsc -Wall -WX -wd4201 -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
 POPD
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
