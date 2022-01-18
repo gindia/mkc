@@ -1,5 +1,5 @@
 """
-Setup A C/C++ language project environment under Windows ~[using clang-cl compiler]~.
+Setup A C/C++ language project environment under Windows ~[using cl compiler]~.
 
 Copyright 2021 Omar M.Gindia.
 """
@@ -78,9 +78,12 @@ def main():
     with open(file_name, "w") as f:
         f.write(f"""/* (C) Copyright {YEAR} {Author_Name}. */
 #include <stdio.h>
-int main(void) {{
-  return 0;
-}}""")
+int
+main(void)
+{{
+    return 0;
+}}
+""")
 
     with open("build.bat", "w") as f:
         f.write(f"""@ECHO off
@@ -97,7 +100,7 @@ SET COMPILATION_UNIT=../{file_name}
 SET STD={std}
 
 PUSHD target
-clang-cl -nologo %COMPILATION_UNIT% -std:%STD% -Od -EHsc -Wall -WX -wd4201 -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
+cl -nologo %COMPILATION_UNIT% -std:%STD% -Od -EHsc -Wall -WX -wd4201 -Zi -fp:fast -link -INCREMENTAL:NO -DEBUG:FULL -OUT:%EXE%
 POPD
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
